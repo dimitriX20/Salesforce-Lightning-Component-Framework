@@ -1,0 +1,27 @@
+<aura:component controller = "BoatSearchResults">
+    <aura:attribute name = "Boats" type = "List" default = "[]" /> 
+    <aura:attribute name = "BoatTypeId" type = "String" default = "" />
+    <aura:attribute name = "selectedBoatId" type = "String" default = "" /> 
+    
+    <aura:handler name="init" action="{!c.init}" value = "{!this}"/> 
+    <aura:handler name="BoatSelect" event = "c:BoatSelect" action="{!c.onBoatSelect}" /> 
+    
+    <aura:method name = "search" action = "{!doSearch}">
+        <aura:attribute name = "BoatTypeId" type = "String" default = "" /> 
+    </aura:method>
+    
+    <lightning:layout multipleRows ="true" >
+        <aura:iteration items ="{!v.boats}" var ="boat">
+            <lightning:layoutItem>
+                <c:BoatTile boat = "{!boat}" selected ="{!(boat.Id == v.selectedBoatId) ? true : false}"/>
+            </lightning:layoutItem>
+        </aura:iteration>
+        
+        
+        <aura:if isTrue = "{!v.boats.length ==0}">
+            <lightning:layoutItem class = "slds-align_absolute-center" padding = "around-small" >
+                No Boats found
+            </lightning:layoutItem>
+        </aura:if>
+    </lightning:layout>
+</aura:component>
